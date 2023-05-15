@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <title>Basketball Training Form</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+
+    <form method="POST" action="/intakeCoach">
+        <input type="text" value="<%= user.local.email %>" name="name" style="display:none">
+        
+
+    <h2>Coaching Information</h2>
+    <label for="coachingExperience">Years of Coaching Experience:</label>
+    <input type="number" id="coachingExperience" name="coachingExperience" required><br><br>
+
+    <label for="previousExperience">Previous Coaching Experience:</label>
+    <textarea id="previousExperience" name="previousExperience" rows="4"></textarea><br><br>
+
+    <h2>Specialty Skills</h2>
+    <label for="skills">Coaching Specialties:</label><br>
+    <input type="checkbox" id="shooting" name="skills" value="shooting">
+    <label for="shooting">Shooting</label><br>
+    <input type="checkbox" id="dribbling" name="skills" value="dribbling">
+    <label for="dribbling">Dribbling</label><br>
+    <input type="checkbox" id="finishing" name="skills" value="finishing">
+    <label for="finishing">Finishing</label><br><br>
+
+    <h2>Basketball Career</h2>
+    <label for="college">College Played At:</label>
+    <input type="text" id="college" name="college"><br><br>
+
+    <label for="professional">Professional Player:</label>
+    <input type="checkbox" id="professional" name="professional">
+    <label for="professional">Yes</label><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+</div>
+
+
+
+<script src="main.js"></script>
+
+</body>
+</html>

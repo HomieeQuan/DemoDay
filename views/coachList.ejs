@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <title>Coach List</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <table class="coach-table">
+      <tr>
+        <th>Coach</th>
+        <th>Years Experience</th>
+        <th>Previous Coaching</th>
+        <th>Professional Player?</th>
+        <th>Specialties</th>
+        <th>Contact</th>
+      </tr>
+        <% coaches.forEach((coach) => { %>
+          <% const wasProfessional = coach.coachIntake.professional ? 'yes' : 'no' %>
+          <tr>
+            <td><%= coach.firstName %> <%=coach.lastName%></td>
+            <td><%= coach.coachIntake.coachingExperience %> years</td>
+            <td><%= coach.coachIntake.previousExperience %></td>
+            <td><%= wasProfessional %></td>
+            <td><%= coach.coachIntake.skills %></td>
+            
+            <!-- this button should be wrapped in a form like this <form action="/chat/<%= coach._id %>"> -->
+                <form method="POST" action="/improve">
+            <td><button type-submit>Start Chat</button></td>
+          </tr>
+       <% })%>
+      </table>
+      
+      
+
+
+
+<script src="main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <title>Intake Form</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Intake Form</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+</div>
+
+<section class="left">
+    <h2>Training form</h2>
+      <% if (user.local.email) { %>
+        
+        <form method="POST" action="/improve">
+          <input type="text" value="<%= user.local.email %>" name="name" style="display:none">
+          
+          
+        
+          <div>
+            <label for="level">Basketball Skill Level:</label>
+            <select id="level" name="level" required>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+        
+          <div>
+            <label for="skills">Skills to Improve:</label>
+            <div>
+              <input type="checkbox" id="shooting" name="skill" value="shooting">
+              <label for="shooting">Shooting</label>
+            </div>
+            <div>
+              <input type="checkbox" id="dribbling" name="skill" value="dribble">
+              <label for="dribbling">Dribbling</label>
+            </div>
+            <div>
+              <input type="checkbox" id="finishing" name="skill" value="finishing">
+              <label for="finishing">Finishing</label>
+            </div>
+          </div>
+          <div> 
+            <label for="workWithCoach">Would you like to Work with a Coach?</label>
+            <select id="workWithCoach" name="workWithCoach" required>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div>
+            <label for="goals">What are your basketball training goals?</label>
+            <textarea id="goals" name="goals" required></textarea>
+          </div>
+        
+          
+        
+          <input type="submit" value="Submit">
+        </form>
+      <% } %>
+      </section>
+    </div>
+
+
+
+<script src="main.js"></script>
+
+</body>
+</html>

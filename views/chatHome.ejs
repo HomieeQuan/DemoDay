@@ -31,11 +31,13 @@
             />
           </div>
           <div class="form-control">
-            <label for="room">Enter Chat</label>
-            <select name="room" id="room">
-              <!-- once we have the right coach, we'll actually replace the innertext of this option with Chat with Coach <%= coach.lastName %>  -->
-              <option value="1:1 with Coach">1:1 with Coach</option>
-            </select>
+            <label for="room">Enter Chat with Coach <%= coachName %></label>
+
+            <input type="hidden" name="room" value="<%= coachName %>">
+            <!-- <select name ="room" id="room">
+              
+              <option value="Coach">1:1 with Coach</option>
+            </select> -->
           </div>
           <button type="submit" class="btn">Join Chat</button>
         </form>

@@ -27,8 +27,9 @@
             <td><%= coach.coachIntake.skills %></td>
             
             <!-- this button should be wrapped in a form like this <form action="/chat/<%= coach._id %>"> -->
-                <form method="POST" action="/improve">
-            <td><button type-submit>Start Chat</button></td>
+              <form action="/chatHome/<%= coach._id %>">
+                <td><button type="submit">Start Chat</button></td>
+                  </form>
           </tr>
        <% })%>
       </table>

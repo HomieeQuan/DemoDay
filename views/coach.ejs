@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Basketball Training Form</title>
+    <title>Coach Page</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
@@ -14,6 +14,28 @@
         <h1><span class="fa fa-anchor"></span> Coach Page</h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
+    <div id="chatRequestsContainer">
+      <% if (incomingChatRequests && incomingChatRequests.length === 0) { %>
+        <p>No incoming chat requests at the moment.</p>
+      <% } else { %>
+        <% incomingChatRequests.forEach(function(chatRequest) { %>
+          <div class="chatRequest">
+            <h3>User Information</h3>
+            <p>First Name: <%= chatRequest.firstName %></p>
+            <p>Last Name: <%= chatRequest.lastName %></p>
+            <p>Level: <%= chatRequest.userIntake.level %></p>
+            <p>Skill: <%= chatRequest.userIntake.skill %></p>
+            <p>Goals: <%= chatRequest.userIntake.goals %></p>
+            <!-- Add more user information as needed -->
+    
+            <form action="/chatHome/<%= chatRequest._id %>">
+              <button type="submit">Join Chat</button>
+            </form>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+    
 
 </div>
 

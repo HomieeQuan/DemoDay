@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+    color: white;
+    
+}
+body{
+    background: url('img/taq.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.chat-container{
+    margin-top: 200px;
+    margin-left: 60px;
+    height: 200px;
+    width: 400px;
+    overflow: auto;
+}
+input{
+    color: black !important;
+}
+
+/* add section to make the chat scrollable */
+

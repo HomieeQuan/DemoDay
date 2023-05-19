@@ -51,16 +51,12 @@ module.exports = function (app, passport, db) {
   });
  
 
-  // db.collections('chatRequests).save({coachID: ObjectId(req.params.coachID), athleteId: req.user._id, chatRoomId: req.params.coachId, athleteName: req.user.firstName, athleteGoals: req.user.userIntake.goals, athleteSkill: req.user.userIntake.skill, athleteLevel: req.user.userIntake.level}, (err, result) => {
-  //   if (err) return console.log(err)
-  //   res.redirect("")
-  //   })
+ 
 
-  // this has to change to accept a coach id as a param. app.get('/chatroom:id')
+
   app.get('/chatroom', isLoggedIn, function (req, res) {
-    // const coachId = req.params.id
-    // use this coach id to find the specific coach in the users collection. something like coach = users.filter((user)=> user._id)
-    // log out the value of coach and once we have the correct coach, we just have to pass their name into the chatroom ejs
+  //  need to delete the chat request when the coach goes to this route.
+  // also need to send the chat request id from the form in coach.ejs as another hidden input, then use that id to delete that chat request freom mongodb
     res.render('chatroom.ejs', {
       user: req.user
       // coach
@@ -106,8 +102,10 @@ module.exports = function (app, passport, db) {
       res.redirect('/coachPage');
       return
     }
-
-    db.collection('workout').find().toArray((err, result) => {
+    const userObj = req.user.toObject()
+    
+    db.collection('workout').find({level: userObj.userIntake.level, skill: userObj.userIntake.skill }).toArray((err, result) => {
+      
       if (err) return console.log(err)
       res.render('profile.ejs', {
         user: req.user,
@@ -228,16 +226,17 @@ module.exports = function (app, passport, db) {
   });
 
 
-  app.get('/coachPage', function (req, res) {
-    db.collection('chatRequest').find().toArray((err, users) => {
+  app.get('/coachPage',  isLoggedIn, function (req, res) {
+    db.collection('chatRequest').find().toArray((err, chatRequests) => {
       if (err) {
         console.log(err);
         return res.status(500).send('Internal Server Error');
       }
-
-      const incomingChatRequests = users.filter((user) => user.userIntake && user.userIntake.level);
-
-      res.render('coach.ejs', { incomingChatRequests });
+      console.log('before filter', chatRequests)
+    
+      const incomingChatRequests = chatRequests.filter((chatRequest) => chatRequest.coachId === req.user._id.toString());
+      console.log('after filter', incomingChatRequests)
+      res.render('coach.ejs', { incomingChatRequests, user: req.user });
     });
   });
 

@@ -88,3 +88,11 @@ document.getElementById("leave-btn").addEventListener("click", () => {
   } else {
   }
 });
+
+// testing scroll to bottom
+// document.addEventListener('DOMContentLoaded', function(){
+//   const container = document.querySelector('.chat-container')
+
+//   container.scrollTop = container.scrollHeight
+// })
+

@@ -18,17 +18,21 @@
       <% if (incomingChatRequests && incomingChatRequests.length === 0) { %>
         <p>No incoming chat requests at the moment.</p>
       <% } else { %>
-        <% incomingChatRequests.forEach(function(chatRequest) { %>
+        <% incomingChatRequests.forEach(function(chatRequest) { 
+          console.log('chatRequest', chatRequest)
+          %>
           <div class="chatRequest">
             <h3>User Information</h3>
-            <p>First Name: <%= chatRequest.firstName %></p>
-            <p>Last Name: <%= chatRequest.lastName %></p>
-            <p>Level: <%= chatRequest.userIntake.level %></p>
-            <p>Skill: <%= chatRequest.userIntake.skill %></p>
-            <p>Goals: <%= chatRequest.userIntake.goals %></p>
+            <p>First Name: <%= chatRequest.athleteName %></p>
+            
+            <p>Level: <%= chatRequest.athleteLevel %></p>
+            <p>Skill: <%= chatRequest.athleteSkill %></p>
+            <p>Goals: <%= chatRequest.athleteGoals %></p>
             <!-- Add more user information as needed -->
     
-            <form action="/chatHome/<%= chatRequest._id %>">
+            <form action="/chatroom">
+              <input type="hidden" name="username" value="<%= user.lastName %>">
+              <input type="hidden" name="room" value="<%= chatRequest.chatRoomId %>">
               <button type="submit">Join Chat</button>
             </form>
           </div>

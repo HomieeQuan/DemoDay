@@ -1,0 +1,99 @@
+body {
+    background-color: #000;
+    background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .join-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative; /* Add this line */
+  }
+  
+  .join-header h1 {
+    font-size: 36px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .join-main {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .form-control {
+    margin-bottom: 20px;
+  }
+  
+  .form-control label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .form-control input[type="text"],
+  .form-control input[type="hidden"] {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #ff8c00;
+  }
+  
+  .btn:active {
+    background-color: #ff6b00;
+  }
+  
+  .btn:focus {
+    outline: none;
+  }
+  
+  .join-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("img/court.jpg");
+    background-size: cover;
+    opacity: 0.7;
+    pointer-events: none; /* Add this line */
+  }
+  
+  .join-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("starry-sky.jpg");
+    background-size: cover;
+    opacity: 0.4;
+    pointer-events: none; /* Add this line */
+  }
+  
+  

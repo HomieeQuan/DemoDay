@@ -53,7 +53,7 @@ Array.from(thumbDown).forEach(function(element) {
 Array.from(trash).forEach(function(element) {
       element.addEventListener('click', function(){
  
-        fetch('improve', {
+        fetch('coach', {
           method: 'delete',
           headers: {
             'Content-Type': 'application/json'
@@ -66,3 +66,48 @@ Array.from(trash).forEach(function(element) {
         })
       });
 });
+
+
+
+// fetch('/chart')
+//   .then(response => response.json())
+//   .then(data => {
+//     // Process the retrieved data
+//     console.log();
+
+//     // Extract workout titles and reps from the data
+//     const workoutTitles = data.map(workout => workout.workoutTitle);
+//     const reps = data.map(workout => workout.reps);
+
+//     // Use the data in your JavaScript code as needed
+//     // For example, update the chart with the retrieved data
+//     const ctx = document.getElementById('myChart').getContext('2d');
+
+//     console.log(reps)
+//     new Chart(ctx, {
+//       type: 'bar',
+//       data: {
+//         labels: workoutTitles,
+//         datasets: [{
+//           label: 'Reps',
+//           data: reps,
+//           borderWidth: 1
+//         }]
+//       },
+//       options: {
+//         scales: {
+//           y: {
+//             beginAtZero: true
+//           }
+//         }
+//       }
+//     });
+//   })
+//   .catch(error => {
+//     // Handle any errors that occurred during the fetch request
+//     console.log('Error:', error);
+//   });
+
+
+
+

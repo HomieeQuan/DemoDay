@@ -7,8 +7,21 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
 </head>
+<header>
+    <nav>
+      <ul class="navLinksContainer">
+        <li><a class="navLinks" href="/">Enter Chat</a></li>
+        <li><a class="navLinks" href="/profile">Profile</a></li>
+        <li><a class="navLinks" href="/coachList">Browse Coaches</a></li>
+        <li><a class="navLinks" href="/performance">Athlete Journal</a></li>
+        <li><a class="navLinks" href="/login">Log In</a></li>
+        <li><a class="navLinks" href="/logout">Log Out</a></li>
+      </ul>
+    </nav>
+  </header>
+  
 <body>
-<div class="container">
+<!-- <div class="container">
 
     <div class="page-header text-center">
         <h1><span class="fa fa-anchor"></span> Profile Page</h1>
@@ -16,13 +29,14 @@
         <a href="/coachList"  class="btn btn-default btn-sm">Coach List</a>
     </div>
 
-    <div >
+    <div > -->
 
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6 hide" style="display:none">
             <div class="well">
                 <h3><span class="fa fa-user"></span> Local</h3>
-
+                
+            <h2>Log your Drills</h2>
                 <% if (user.local.email) { %>
                     <p>
                         <strong>id</strong>: <%= user._id %><br>
@@ -37,43 +51,43 @@
 
             </div>
         </div>
-        <div>
-          <section>
-            <h3>Workouts</h3>
-            <form method="POST" action="/completedWorkouts">
-            <table style="border: 1px solid black;">
-                <thead>
-                    <tr>
-                        <th style="border: 1px solid black;">Title</th>
-                        <th style="border: 1px solid black;">Level</th>
-                        <th style="border: 1px solid black;">Description</th>
-                        <th style="border: 1px solid black;">Sport</th>
-                        <th style="border: 1px solid black;">Log</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(var i=0; i<workout.length; i++) {%>
-                    <tr>
-                        <td style="border: 1px solid black;"><%= workout[i].title %></td>
-                        <td style="border: 1px solid black;"><%= workout[i].level %></td>
-                        <td style="border: 1px solid black;"><%= workout[i].description %></td>
-                        <td style="border: 1px solid black;"><%= workout[i].sport %></td>
-                        <td style="border: 1px solid black;"><input type="text" name="completed:<%= workout[i]._id %>"></td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
-          </form>
-        </section>
-        
-          
+        <div class="container">
+            <section>
+              <h3 class="text-primary">Log your Workouts</h3>
+              <div class="journal">
+                <form action="completedWorkouts" method="post" enctype="multipart/form-data">
+                <% for(var i=0; i<workout.length; i++) { %>
+                  <div class="journal-entry bg-white p-4 mb-4">
+                    <h3 class="text-primary"><%= workout[i].title %></h3>
+                    <p><strong>Level:</strong> <%= workout[i].level %></p>
+                    <p><strong>Description:</strong> <%= workout[i].description %></p>
+                    <p><strong>Sport:</strong> <%= workout[i].sport %></p>
+                    <input type="hidden" name="title:<%= workout[i]._id %>" value="<%= workout[i].title %>">
+                    <div class="log-section">
+                      <label for="completed<%= workout[i]._id %>" class="form-label">Log:</label>
+                      <input type="text" id="completed<%= workout[i]._id %>" name="completed:<%= workout[i]._id %>" placeholder="Enter the number of times you did this drill" class="form-control form-control-sm">
+                    </div>
+                    <div class="file-section mt-3">
+                      <label for="files<%= workout[i]._id %>" class="form-label">File:</label>
+                      <div class="input-group">
+                        <input type="file" id="files<%= workout[i]._id %>" name="files"  class="form-control fileUpload" >
+                        <label class="input-group-text" for="files<%= workout[i]._id %>">Choose File</label>
+                        <input type="hidden" name="fileName:<%= workout[i]._id %>" >
+                      </div>    
+                    </div>
+                  </div>
+                <% } %>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </section>
+          </div>
           
 
-         
-            
-</div>
+          
+          
+<script src="upload.js"></script>
 
-<script src="main.js"></script>
 
 </body>
 </html>

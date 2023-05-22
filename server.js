@@ -2,6 +2,7 @@
 
 // set up ======================================================================
 // get all the tools we need
+require('dotenv').config({ path: 'config/.env' }); 
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 8081;

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <title>Basketball Training Form</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1>Performance</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+       
+    </div>
+
+    <div >
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6 hide" style="display:none">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                <% if (user.local.email) { %>
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>
+
+                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+    
+    <table style="border: 1px solid black;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black;">Title</th>
+            <th style="border: 1px solid black;">Date</th>
+            <th style="border: 1px solid black;">How many times completed</th>
+            <th style="border: 1px solid black;">Workout Feedback</th>
+            <% if (user.role === 'coach') { %>
+              <th style="border: 1px solid black;">Coach Comment</th>
+            <% } %>
+          </tr>
+        </thead>
+        <tbody>
+            <% console.log('this is performanceCoach.ejs') %>
+          <% for(var i=0; i<completedWorkouts.length; i++) { %>
+            <tr>
+              <td style="border: 1px solid black;"><%= completedWorkouts[i].workoutTitle %></td>
+              <td style="border: 1px solid black;"><%= completedWorkouts[i].date %></td>
+              <td style="border: 1px solid black;"><%= completedWorkouts[i].reps %></td>
+              <td style="border: 1px solid black;"><img src="<%= completedWorkouts[i].url %>" alt="Workout Image"></td>
+              
+              <% if (user.role === 'coach' || true ) { %>
+                <td style="border: 1px solid black;">
+                  <form action="/addcomment" method="POST">
+                    <input type="hidden" name="workoutId" value="<%= completedWorkouts[i]._id %>">
+                    <textarea name="coachComment" placeholder="Enter your comment"><%= completedWorkouts[i].coachComment %></textarea>
+                    <button type="submit">Submit</button>
+                  </form>
+                </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+  
+      
+</div>
+
+
+</body>
+
+
+        
+
+    
+        
+          
+
+        
+
+
+        
+       
+        
+          
+          
+
+         
+            
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>

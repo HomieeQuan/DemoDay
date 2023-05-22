@@ -26,6 +26,36 @@
   float: right;
 }
 
+header {
+  background-color: #337ab7;
+  padding: 10px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+nav li {
+  margin-left: 10px;
+}
+
+.navLinks {
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navLinks:hover {
+  background-color: #ccc;
+}
+
+
 /* Local Information */
 .hide {
   display: none;
@@ -184,3 +214,111 @@ td, th {
   padding: 10px;
   border: 1px solid black;
 }
+
+.coach-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 100px;
+  padding-left: 125px;
+  padding-right: 135px;
+}
+
+.coach-card {
+  width: 300px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.coach-name {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.coach-details div {
+  margin-bottom: 5px;
+}
+
+.chat-button {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-button:hover {
+  background-color: #45a049;
+}
+
+/* 
+.containerIntake{
+
+  margin-left: 50px;
+} */
+
+
+  /* Custom CSS styles */
+#chatRequestsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.chatRequest {
+  width: 300px;
+  padding: 20px;
+  background-color: #343a40;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: white 2px;
+}
+
+.chatRequest h5.card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.chatRequest h6.card-subtitle {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.chatRequest p.card-text {
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.chatRequest form {
+  margin-top: 10px;
+}
+
+.chatRequest button {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.chatRequest button.btn-danger {
+  background-color: #dc3545;
+}
+
+.chatRequest button i {
+  margin-right: 5px;
+}
+
+

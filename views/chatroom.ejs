@@ -19,9 +19,14 @@
       </header>
       <main class="chat-main">
         <div class="chat-sidebar">
-          <!-- <h3><i class="fas fa-comments"></i> Today's Coach Chat:</h3> -->
-          <!-- <h2 id="room-name"></h2> -->
+           <h3><i class="fas fa-comments"></i> Today's Coach Chat:</h3> 
+           <h2 id="room-name"></h2> 
           <h3><i class="fas fa-users"></i> Users</h3>
+          <% if (user.role === 'coach' || true ) { %>
+            <form action="follow" method="post">
+              <button id="followBtn" type="submit">Follow Athlete</button>
+            </form>
+            <% } %>
           <ul id="users"></ul>
         </div>
         <div class="chat-messages"></div>

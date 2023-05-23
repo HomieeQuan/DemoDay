@@ -32,6 +32,15 @@ module.exports = function (app, passport, db) {
     res.render('index.ejs');
   });
 
+
+  app.get('/training', function (req, res) {
+    res.render('training.ejs');
+  });
+
+  // app.get('/chartBar', function (req, res) {
+  //   res.render('chart.ejs');
+  // });
+
   // Intake route after signup this forwards us to the correct intake form
   app.get('/intake', isLoggedIn, function (req, res) {
     if (req.user.role === 'coach') {
@@ -97,8 +106,11 @@ module.exports = function (app, passport, db) {
   app.get('/chatroom', isLoggedIn, function (req, res) {
     //  need to delete the chat request when the coach goes to this route.
     // also need to send the chat request id from the form in coach.ejs as another hidden input, then use that id to delete that chat request freom mongodb
+    // db.collection('users').find({ user: req.user._id  }).toArray((err, result) => {
     res.render('chatroom.ejs', {
-      user: req.user
+      user: req.user,
+      // role: result
+    
       // coach
     })
   });
@@ -300,11 +312,12 @@ module.exports = function (app, passport, db) {
   app.post('/addcomment', isLoggedIn, function (req, res) {
     const workoutId = req.body.workoutId;
     const coachComment = req.body.coachComment;
+    const coachName = req.user.firstName; // Retrieve the coach name from the session or request object
   
-    // Update the workout document with the coach comment
+    // Update the workout document with the coach comment and name
     db.collection('completedWorkouts').updateOne(
       { _id: ObjectID(workoutId) },
-      { $set: { coachComment: coachComment } },
+      { $set: { coachComment: coachComment, coachName: coachName } }, // Include the coach name in the update operation
       function (err, result) {
         if (err) {
           console.log(err);
@@ -314,6 +327,38 @@ module.exports = function (app, passport, db) {
       }
     );
   });
+  
+
+  app.post('/follow', isLoggedIn, function (req, res) {
+    const athleteUsername = req.body.username;
+  
+    // Retrieve the athlete's role, firstName, and lastName from the 'users' collection
+    db.collection('users')
+      .findOne({ username: athleteUsername, role: 'athlete' })
+      .then(function (athlete) {
+        if (!athlete) {
+          throw new Error('Athlete not found.');
+        }
+  
+        const { role, firstName, lastName } = athlete;
+  
+        // Save the athlete's role, firstName, and lastName in the 'follow' collection
+        return db.collection('follow').insertOne({
+          role: role,
+          firstName: firstName,
+          lastName: lastName
+        });
+      })
+      .then(function (result) {
+        console.log('Successfully followed athlete:', result.ops[0]);
+        res.sendStatus(200);
+      })
+      .catch(function (error) {
+        console.log(error);
+        res.sendStatus(500);
+      });
+  });
+  
   
 
   app.post('/improve', (req, res) => {

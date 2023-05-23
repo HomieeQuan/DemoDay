@@ -34,6 +34,10 @@
         <form action="/chatHome/<%= coach._id %>">
           <button type="submit" class="chat-button">Start Chat</button>
         </form>
+
+        <form action="/follow" method="put">
+          <button type="submit" class="chat-button"> follow coach</button>
+        </form>
       </div>
     <% }) %>
   </div>

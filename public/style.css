@@ -321,4 +321,69 @@ td, th {
   margin-right: 5px;
 }
 
+/* performanceCoach */
+
+.timeline-container {
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px; /* Adjust the spacing between items as needed */
+}
+
+.timeline-date {
+  position: absolute;
+  left: -100px; /* Adjust the position of the date as needed */
+  top: 0;
+  /* background-color: #f2f2f2; Adjust the background color as needed */
+  padding: 10px;
+}
+
+.timeline-content {
+  margin-left: 120px; /* Adjust the spacing between the date and content as needed */
+}
+
+.timeline-content h4 {
+  margin-top: 0;
+}
+
+.timeline-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* performanceAthlete */
+
+.timeline-container {
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px; /* Adjust the spacing between items as needed */
+}
+
+.timeline-date {
+  position: absolute;
+  left: -100px; /* Adjust the position of the date as needed */
+  top: 0;
+  
+  padding: 10px;
+}
+
+.timeline-content {
+  margin-left: 120px; /* Adjust the spacing between the date and content as needed */
+}
+
+.timeline-content h4 {
+  margin-top: 0;
+}
+
+.timeline-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 

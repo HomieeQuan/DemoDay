@@ -19,6 +19,9 @@ body{
 input{
     color: black !important;
 }
+#room-name{
+    display: none;
+}
 
 /* add section to make the chat scrollable */
 

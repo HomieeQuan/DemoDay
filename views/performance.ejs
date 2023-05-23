@@ -38,34 +38,27 @@
             </div>
         </div>
     </div>
-    <form action="completedWorkouts" method="post">
-    <table style="border: 1px solid black;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid black;">Title</th>
-            <th style="border: 1px solid black;">Date</th>
-            <th style="border: 1px solid black;">How many times completed</th>
-            <th style="border: 1px solid black;">Workout Feedback</th>
-          
-              <th style="border: 1px solid black;">Coach Comment</th>
-        
-          </tr>
-        </thead>
-        <tbody>
-          <% console.log('this is Performance.ejs') %>
-          <% for(var i=0; i<completedWorkouts.length; i++) { %>
-            <tr>
-              <td style="border: 1px solid black;"><%= completedWorkouts[i].workoutTitle %></td>
-              <td style="border: 1px solid black;"><%= completedWorkouts[i].date %></td>
-              <td style="border: 1px solid black;"><%= completedWorkouts[i].reps %></td>
-              <td style="border: 1px solid black;"><%= completedWorkouts[i].coachComment %></td>
-              <td style="border: 1px solid black;"><img src="<%= completedWorkouts[i].url %>" alt="Workout Image"></td>
-             
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
-    </form>
+    <div class="timeline-container">
+      <form action="completedWorkouts" method="post">
+        <% for(var i=0; i<completedWorkouts.length; i++) { %>
+          <div class="timeline-item">
+            <div class="timeline-date">
+              <span><%= completedWorkouts[i].date %></span>
+            </div>
+            <div class="timeline-content">
+              <h4><%= completedWorkouts[i].workoutTitle %></h4>
+              <p>Times Completed: <%= completedWorkouts[i].reps %></p>
+              <% if (completedWorkouts[i].coachName) { %>
+                <p>Coach: <%= completedWorkouts[i].coachName %></p>
+              <% } %>
+              <p>Coach Comment: <%= completedWorkouts[i].coachComment %></p>
+              <img src="<%= completedWorkouts[i].url %>" alt="Workout Image">
+            </div>
+          </div>
+        <% } %>
+      </form>
+    </div>
+    
       
 </div>
 

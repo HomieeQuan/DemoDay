@@ -8,13 +8,22 @@
     <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header>
+        <nav>
+          <ul class="navLinksContainer">
+            <li><a class="navLinks" href="/training">Training Guide</a></li>
+            
+            <li><a class="navLinks" href="/coachList">Browse Coaches</a></li>
+           
+            <li><a class="navLinks" href="/chartBar">Performance Tracker</a></li>
+          
+            <li><a class="navLinks" href="/logout">Log Out</a></li>
+          </ul>
+        </nav>
+      </header>
 <div class="container">
 
-    <div class="page-header text-center">
-        <h1>Performance</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-       
-    </div>
+    
 
     <div >
 
@@ -39,11 +48,20 @@
         </div>
     </div>
     <div class="timeline-container">
-      <form action="completedWorkouts" method="post">
+      <h2>Athlete Journal</h2>
+      
         <% for(var i=0; i<completedWorkouts.length; i++) { %>
           <div class="timeline-item">
             <div class="timeline-date">
               <span><%= completedWorkouts[i].date %></span>
+              <form action="/journal" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="workoutId" value="<%= completedWorkouts[i]._id %>">
+                <button type="submit" class="btn">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                  Delete workout
+                </button>
+              </form>
             </div>
             <div class="timeline-content">
               <h4><%= completedWorkouts[i].workoutTitle %></h4>
@@ -52,11 +70,13 @@
                 <p>Coach: <%= completedWorkouts[i].coachName %></p>
               <% } %>
               <p>Coach Comment: <%= completedWorkouts[i].coachComment %></p>
+              <% if(completedWorkouts[i].url) { %>
               <img src="<%= completedWorkouts[i].url %>" alt="Workout Image">
+              <% } %>
             </div>
           </div>
         <% } %>
-      </form>
+      
     </div>
     
       

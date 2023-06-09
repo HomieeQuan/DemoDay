@@ -1,18 +1,20 @@
 <!doctype html>
 <html>
 <head>
+    
     <title>Coach List</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
+   
 </head>
 <body>
   <header>
     <nav>
       <ul class="navLinksContainer">
-        <li><a class="navLinks" href="/">Enter Chat</a></li>
-        <li><a class="navLinks" href="/profile">Profile</a></li>
+       
+        <li><a class="navLinks" href="/profile">Workout log</a></li>
         <li><a class="navLinks" href="/coachList">Browse Coaches</a></li>
         <li><a class="navLinks" href="/performance">Athlete Journal</a></li>
         <li><a class="navLinks" href="/login">Log In</a></li>
@@ -21,26 +23,46 @@
     </nav>
   </header>
   <div class="coach-container">
+    <h2>Pick a coach to chat with</h2>
     <% coaches.forEach((coach) => { %>
       <% const wasProfessional = coach.coachIntake.professional ? 'yes' : 'no' %>
       <div class="coach-card">
-        <div class="coach-name"><%= coach.firstName %> <%=coach.lastName%></div>
+        <div class="coach-name"><%= coach.firstName %> <%= coach.lastName %></div>
         <div class="coach-details">
           <div>Years Experience: <%= coach.coachIntake.coachingExperience %> years</div>
           <div>Previous Coaching: <%= coach.coachIntake.previousExperience %></div>
           <div>Professional Player? <%= wasProfessional %></div>
           <div>Specialties: <%= coach.coachIntake.skills %></div>
         </div>
-        <form action="/chatHome/<%= coach._id %>">
-          <button type="submit" class="chat-button">Start Chat</button>
+        <form action="/chatHome/<%= coach._id %>" method="post">
+          <button type="submit" class="chat-button hidden-button">Send Chat Request</button>
         </form>
+      <%  for(let i = 0; i < requestMade.length; i++){ %>
+        <% console.log('looking for this', typeof requestMade[i].coachId) %>
+        <% console.log('looking for this 2', typeof coach._id.toString()) %>
+         <% if(requestMade[i].coachId === coach._id.toString()){ %>
+            <h3>Your Chat Request is: <%=  requestMade[i].requestStatus %></h3>
+       <%  } %>
+          <% if(requestMade[i].requestStatus === 'accepted'){ %>
+            <form action="/joinChat/<%= coach._id %>">
+              <button type="submit" class="chat-button">Join Chat</button>
+            </form>
+        <% } %>
+          
+     
+          
+       
+           
+        
 
-        <form action="/follow" method="put">
-          <button type="submit" class="chat-button"> follow coach</button>
-        </form>
+        
+        <% } %>
+  
       </div>
     <% }) %>
   </div>
+  
+  
   
 
 

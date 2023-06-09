@@ -35,19 +35,44 @@
           <p class="card-text">Level: <%= chatRequest.athleteLevel %></p>
           <p class="card-text">Skill: <%= chatRequest.athleteSkill %></p>
           <p class="card-text">Goals: <%= chatRequest.athleteGoals %></p>
-          <p class="card-text">Request Date: <%= chatRequest.athleteDate %></p>
+          <p class="card-text">Request Date: <%= chatRequest.athleteChatRequestDate %></p>
+
+          
+          <% if(chatRequest.requestStatus == 'pending'){ %>
+            <p data-id="<%= chatRequest._id %>" ><button 
+              class="acceptChat">Accept Chat</button></p>
+
+           <p data-id="<%= chatRequest._id %>" ><button class="declineChat">Decline Chat</button></p>
+         
+         <% }else if(chatRequest.requestStatus == 'accepted'){ %> 
           <form action="/chatroom">
             <input type="hidden" name="username" value="<%= user.lastName %>">
             <input type="hidden" name="room" value="<%= chatRequest.chatRoomId %>">
             <button type="submit" class="btn btn-primary">Join Chat</button>
           </form>
-          <form action="/declineRequest">
+
+         <% } else{ %>
+          <form action="/declineRequest" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="chatRequestId" value="<%= chatRequest._id %>">
             <button type="submit" class="btn btn-danger declineRequestButton">
               <i class="fa fa-trash" aria-hidden="true"></i>
               Delete request
             </button>
           </form>
+          
+         <% } %> 
+            
+            
+
+
+
+
+
+
+
+         
+          
         </div>
       </div>
       <% }); %>
@@ -55,12 +80,11 @@
     </div>
   
   </div>
+
+
+  <script src="follow.js"></script>
   
-    
-
-
-
-<script src="main.js"></script>
 
 </body>
 </html>
+

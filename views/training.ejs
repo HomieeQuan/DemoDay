@@ -4,37 +4,30 @@
     <title>Training Guide</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="training.css">
     <script src="https://kit.fontawesome.com/4f3c245195.js" crossorigin="anonymous"></script>
 </head>
-<header>
+<body>
+  <header>
     <nav>
       <ul class="navLinksContainer">
-        <li><a class="navLinks" href="/">Enter Chat</a></li>
-        <li><a class="navLinks" href="/profile">Profile</a></li>
+    
+        <li><a class="navLinks" href="/profile">Workout log</a></li>
         <li><a class="navLinks" href="/coachList">Browse Coaches</a></li>
         <li><a class="navLinks" href="/performance">Athlete Journal</a></li>
-        <li><a class="navLinks" href="/login">Log In</a></li>
+        <li><a class="navLinks" href="/chartBar">Performance tracker</a></li>
         <li><a class="navLinks" href="/logout">Log Out</a></li>
       </ul>
     </nav>
   </header>
-  
-<body>
 
-  
-    <h1>Basketball Workout Tutorial Search</h1>
+  <h1>Basketball Workout Tutorial Search</h1>
 
-  <label for="search">Enter your search basketball workout:</label>
-  <input type="text" id="searchInput" placeholder='search'>
+  <label for="search">Enter your basketball workout:</label>
+  <input type="text" id="searchInput" placeholder="Search">
   <button id="searchButton">Tutorial</button>
   <iframe id="videoFrame" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          
 
-          
-          
-<script src="main.js"></script>
-
-
+  <script src="trainingApi.js"></script>
 </body>
 </html>

@@ -95,7 +95,7 @@ const followForm = document.getElementById('followForm');
 followForm.addEventListener('submit', function(event) {
   const athleteUsername = document.querySelector('.users[data-role="athlete"]').innerText;
 
-  fetch('follow', {
+  fetch('/follow', {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -104,13 +104,13 @@ followForm.addEventListener('submit', function(event) {
       username: athleteUsername
     })
   })
-    // .then(function(response) {
-    //   if (response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error('Failed to follow athlete.');
-    //   }
-    // })
+    .then(function(response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to follow athlete.');
+      }
+    })
     .then(function(data) {
       console.log('Successfully followed athlete:', data);
       alert('Athlete has been followed.'); // Display an alert message
@@ -119,6 +119,7 @@ followForm.addEventListener('submit', function(event) {
       console.log(error);
     });
 });
+
 
 
 

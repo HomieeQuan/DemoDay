@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME, 
+  cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET
 });
@@ -33,13 +33,18 @@ module.exports = function (app, passport, db) {
   });
 
 
+  // app.get('declineRequest', function (req, res) {
+  //   res.render('coach.ejs');
+  // });
+
+
   app.get('/training', function (req, res) {
     res.render('training.ejs');
   });
 
-  // app.get('/chartBar', function (req, res) {
-  //   res.render('chart.ejs');
-  // });
+  app.get('/chartBar', function (req, res) {
+    res.render('chart.ejs');
+  });
 
   // Intake route after signup this forwards us to the correct intake form
   app.get('/intake', isLoggedIn, function (req, res) {
@@ -51,29 +56,29 @@ module.exports = function (app, passport, db) {
 
   });
 
-  app.get('/chatHome/:coachId', isLoggedIn, function (req, res) {
+  app.post('/chatHome/:coachId', isLoggedIn, function (req, res) {
     const athleteId = req.user._id.toString();
     const coachId = req.params.coachId;
-  
+
     // Check if a chat request already exists for the user and coach
     db.collection('chatRequest').findOne({ athleteId, coachId }, (err, existingRequest) => {
       if (err) {
         console.log(err);
         return res.status(500).send('Internal Server Error');
       }
-  
+
       if (existingRequest) {
         // A chat request already exists, handle accordingly (e.g., show an error message)
         return res.send('You have already sent a chat request to this coach.');
       }
-  
+
       // Create a new chat request
       db.collection('users').findOne({ _id: ObjectID(athleteId) }, (err, user) => {
         if (err) {
           console.log(err);
           return res.status(500).send('Internal Server Error');
         }
-  
+
         db.collection('chatRequest').insertOne({
           coachId,
           athleteId,
@@ -82,22 +87,70 @@ module.exports = function (app, passport, db) {
           athleteGoals: user.userIntake.goals,
           athleteSkill: user.userIntake.skill,
           athleteLevel: user.userIntake.level,
-          athleteDate: user.userIntake.date
+          athleteChatRequestDate: new Date().toDateString(),
+          requestStatus: 'pending'
         }, (err) => {
           if (err) {
             console.log(err);
             return res.status(500).send('Internal Server Error');
           }
-  
-          res.render('chatHome.ejs', {
-            user: req.user,
-            coachName: coachId
-          });
+          res.redirect('/coachList')
+          // res.render('chatHome.ejs', {
+          //   user: req.user,
+          //   coachName: coachId
+          // });
         });
       });
     });
   });
-  
+
+  app.get('/joinChat/:coachId', isLoggedIn, function (req, res) {
+    const athleteId = req.user._id.toString();
+    const coachId = req.params.coachId;
+
+    // Check if a chat request already exists for the user and coach
+    // db.collection('chatRequest').findOne({ athleteId, coachId }, (err, existingRequest) => {
+    //   if (err) {
+    //     console.log(err);
+    //     return res.status(500).send('Internal Server Error');
+    //   }
+
+    //   if (existingRequest) {
+    //     // A chat request already exists, handle accordingly (e.g., show an error message)
+    //     return res.send('You have already sent a chat request to this coach.');
+    //   }
+
+    //   // Create a new chat request
+    //   db.collection('users').findOne({ _id: ObjectID(athleteId) }, (err, user) => {
+    //     if (err) {
+    //       console.log(err);
+    //       return res.status(500).send('Internal Server Error');
+    //     }
+
+    //     db.collection('chatRequest').insertOne({
+    //       coachId,
+    //       athleteId,
+    //       chatRoomId: coachId,
+    //       athleteName: user.firstName,
+    //       athleteGoals: user.userIntake.goals,
+    //       athleteSkill: user.userIntake.skill,
+    //       athleteLevel: user.userIntake.level,
+    //       athleteChatRequestDate: new Date().toDateString(),
+    //       requestStatus: 'pending'
+    //     }, (err) => {
+    //       if (err) {
+    //         console.log(err);
+    //         return res.status(500).send('Internal Server Error');
+    //       }
+
+    res.redirect('chatHome.ejs', {
+      user: req.user,
+      coachName: coachId
+    });
+  });
+  //   });
+  // });
+
 
 
 
@@ -110,7 +163,7 @@ module.exports = function (app, passport, db) {
     res.render('chatroom.ejs', {
       user: req.user,
       // role: result
-    
+
       // coach
     })
   });
@@ -145,9 +198,9 @@ module.exports = function (app, passport, db) {
       3. Create a coach feedback section per day/ edit button only coach type accounts can see
       
       */
-  
+
       console.log(result); // Log the result to see the retrieved data
-  
+
       if (err) {
         console.log(err);
         return;
@@ -166,13 +219,13 @@ module.exports = function (app, passport, db) {
         return;
       }
 
-      
+
       const completedWorkoutsWithImages = result.map(workout => {
         const imageURL = cloudinary.url(workout.image, { width: 200, height: 200, crop: 'fill' });
         return { ...workout, imageURL };
       });
       console.log('completedWorkouts', completedWorkoutsWithImages)
-      
+
       res.render('performance', {
         user: req.user,
         completedWorkouts: completedWorkoutsWithImages
@@ -181,12 +234,12 @@ module.exports = function (app, passport, db) {
   });
 
   app.get('/performanceCoach', isLoggedIn, async function (req, res) {
-    const chatRequests = await db.collection('chatRequest').find({coachId: req.user._id.toString()}).toArray()
+    const chatRequests = await db.collection('chatRequest').find({ coachId: req.user._id.toString() }).toArray()
 
     const athletes = chatRequests.map(cr => ObjectID(cr.athleteId))
     console.log('chat', chatRequests)
     console.log('athletes', athletes)
-    
+
     const completedWorkouts = await db.collection('completedWorkouts').find({ user: { $in: athletes } }).toArray()
     console.log(completedWorkouts)
     res.render('performanceCoach', {
@@ -195,25 +248,25 @@ module.exports = function (app, passport, db) {
     });
   });
 
-  
 
-  // app.get('/chart', function (req, res) {
-  //   // Retrieve data from MongoDB
-  //   db.collection('completedWorkouts').find().toArray((err, data) => {
-  //     if (err) {
-  //       console.log(err);
-  //       res.status(500).json({ error: 'Internal server error' });
-  //       return;
-  //     }
-  
-  //     res.json(data);
-  //   });
-  // });
-  
-  
-  
-  
-  
+
+  app.get('/chart', function (req, res) {
+    // Retrieve data from MongoDB
+    db.collection('completedWorkouts').find().toArray((err, data) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+
+      res.json(data);
+    });
+  });
+
+
+
+
+
 
   // Rest of the code...
 
@@ -272,28 +325,34 @@ module.exports = function (app, passport, db) {
         const file = req.files.find(f => f.originalname === originalName)
         console.log(file);
         const currentDate = new Date().toDateString()
-        console.log("insert/update:", workoutId, workoutTitle, file.path, currentDate);
+        console.log("insert/update:", workoutId, workoutTitle, file, currentDate);
         let cresult;
-        try{
-          cresult = await cloudinary.uploader.upload(file.path);
-          console.log('see result', cresult)
-        } catch (err) {
-          console.log("cloudinary error", err)
+        if (file) {
+
+
+          try {
+            cresult = await cloudinary.uploader.upload(file.path);
+            console.log('see result', cresult)
+          } catch (err) {
+            console.log("cloudinary error", err)
+          }
         }
         // await db.collection('completedWorkouts').deleteMany();
-        await db.collection('completedWorkouts').updateOne({date: {$gte: currentDate}, workout: splitKey[1] }, 
-          {$set :{
-            user: req.user._id,
-            workoutID: workoutId,
-            workoutTitle: workoutTitle,
-            reps: req.body[key],
-            date: currentDate,
-            url: cresult?.secure_url
-          }}, 
-          {upsert: true})
+        await db.collection('completedWorkouts').updateOne({ date: { $gte: currentDate }, workout: splitKey[1] },
+          {
+            $set: {
+              user: req.user._id,
+              workoutID: workoutId,
+              workoutTitle: workoutTitle,
+              reps: req.body[key],
+              date: currentDate,
+              url: cresult?.secure_url
+            }
+          },
+          { upsert: true })
       }
     }
-    
+
     res.redirect('/performance')
 
   });
@@ -301,10 +360,10 @@ module.exports = function (app, passport, db) {
   app.post('/completedWorkouts', upload.array('files'), (req, res) => {
     // Access the uploaded files using req.files
     // Handle file upload logic here
-  
+
     // Access the submitted form data using req.body
     // Handle the submitted form data
-  
+
     res.send('Workout submitted successfully');
   });
 
@@ -313,7 +372,7 @@ module.exports = function (app, passport, db) {
     const workoutId = req.body.workoutId;
     const coachComment = req.body.coachComment;
     const coachName = req.user.firstName; // Retrieve the coach name from the session or request object
-  
+
     // Update the workout document with the coach comment and name
     db.collection('completedWorkouts').updateOne(
       { _id: ObjectID(workoutId) },
@@ -327,21 +386,29 @@ module.exports = function (app, passport, db) {
       }
     );
   });
-  
+
 
   app.post('/follow', isLoggedIn, function (req, res) {
     const athleteUsername = req.body.username;
-  
+    const userObj = req.user.toObject();
+
+    if (!userObj.userIntake || !userObj.userIntake.level) {
+      res.status(400).json({ error: 'User level not found.' });
+      return;
+    }
+
+    const level = userObj.userIntake.level;
+
     // Retrieve the athlete's role, firstName, and lastName from the 'users' collection
     db.collection('users')
-      .findOne({ username: athleteUsername, role: 'athlete' })
+      .findOne({ username: athleteUsername, role: 'athlete', 'userIntake.level': level })
       .then(function (athlete) {
         if (!athlete) {
           throw new Error('Athlete not found.');
         }
-  
+        console.log('looking for this', userObj);
         const { role, firstName, lastName } = athlete;
-  
+
         // Save the athlete's role, firstName, and lastName in the 'follow' collection
         return db.collection('follow').insertOne({
           role: role,
@@ -351,15 +418,15 @@ module.exports = function (app, passport, db) {
       })
       .then(function (result) {
         console.log('Successfully followed athlete:', result.ops[0]);
-        res.sendStatus(200);
+        res.sendStatus(204);
       })
       .catch(function (error) {
         console.log(error);
         res.sendStatus(500);
       });
   });
-  
-  
+
+
 
   app.post('/improve', (req, res) => {
     // console.log(req.body);
@@ -446,20 +513,25 @@ module.exports = function (app, passport, db) {
     );
   });
 
-  // db.collection('workout').find({level: req.body.level, skill: req.body.skill}).toArray((err, result) => {
-  //   if (err) return console.log(err)
-  //   res.render('profile.ejs', {
-  //     user : req.user,
-  //     workout: result
-  //   })
-  // })
 
-  app.get('/coachList', function (req, res) {
+  app.get('/coachList', isLoggedIn, function (req, res) {
     db.collection('users').find().toArray((err, users) => {
       console.log({ users })
       const coaches = users.filter((user) => user.role === 'coach')
       if (err) return console.log(err);
-      res.render('coachList.ejs', { coaches });
+      console.log(req.user)
+      db.collection('chatRequest').find().toArray((err,
+        chatRequests) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Internal Server Error');
+        }
+        console.log('looking for this', coaches)
+        console.log('2', chatRequests)
+        const requestMade = chatRequests.filter((chatRequest) => chatRequest.athleteId === req.user._id.toString())
+        console.log('3', requestMade)
+        res.render('coachList.ejs', { coaches, requestMade });
+      })
     });
   });
 
@@ -478,15 +550,67 @@ module.exports = function (app, passport, db) {
     });
   });
 
+  app.put('/acceptedChat', (req, res) => {
+    const chatReqId = req.body.chatReqId;
+
+    db.collection('chatRequest').findOneAndUpdate(
+      { _id: ObjectID(chatReqId) },
+      { $set: { requestStatus: 'accepted' } },
+      { returnOriginal: false }, // Ensures the updated document is returned
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Internal Server Error');
+        }
+        res.send(result.value);
+      }
+    );
+  });
+
+
+  app.put('/declineChat', (req, res) => {
+    const chatReqId = req.body.chatReqId;
+
+    db.collection('chatRequest').findOneAndUpdate(
+      { _id: ObjectID(chatReqId) },
+      { $set: { requestStatus: 'decline' } },
+      { returnOriginal: false }, // Ensures the updated document is returned
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Internal Server Error');
+        }
+        res.send(result.value);
+      }
+    );
+  });
 
 
 
-  app.delete('/coach', (req, res) => {
-    db.collection('chatRequest').findOneAndDelete({ _id: ObjectID(req.body.id) }, (err, result) => {
-      if (err) return res.send(500, err)
-      res.send('Message deleted!')
-    })
-  })
+
+
+  app.post('/declineRequest', (req, res) => {
+    console.log(req.body)
+    db.collection('chatRequest').findOneAndDelete({ _id: ObjectID(req.body.chatRequestId) }, (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error deleting request.');
+      }
+      res.redirect('/coachPage'); // Redirect to the desired page after deletion
+    });
+  });
+
+
+
+  app.post('/journal', (req, res) => {
+    console.log(req.body)
+    db.collection('completedWorkouts').findOneAndDelete({ _id: ObjectID(req.body.workoutId) }, (err, result) => {
+      console.log(result)
+      if (err) return res.status(500).send(err);
+      res.redirect('/performance');
+    });
+  });
+
 
   // =============================================================================
   // AUTHENTICATE (FIRST LOGIN) ==================================================

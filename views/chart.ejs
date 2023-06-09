@@ -10,19 +10,33 @@
 
 </head>
 <body>
+    <header>
+        <nav>
+          <ul class="navLinksContainer">
+            <li><a class="navLinks" href="/training">Training Guide</a></li>
+            <li><a class="navLinks" href="/profile">Workoutlog</a></li>
+            <li><a class="navLinks" href="/coachList">Browse Coaches</a></li>
+            <li><a class="navLinks" href="/performance">Athlete Journal</a></li>
+            <li><a class="navLinks" href="/logout">Log Out</a></li>
+          </ul>
+        </nav>
+      </header>
 <div class="container">
 
-    <div class="page-header text-center">
-        <h1>Performance</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-       
-    </div>
+   
 
   
 
     <div>
         <canvas id="myChart"></canvas>
       </div>
+
+
+
+    <div>
+        <canvas id="myDoughnutChart"></canvas>
+      </div>
+      
       
     
 
@@ -43,11 +57,10 @@
             
 </div>
 
-<script type="module" src="main.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="chart.js"></script>
+
 
 
 </body>
